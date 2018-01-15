@@ -17,6 +17,7 @@ public class GreetingController {
     @Autowired
     private Tracer tracer;
 
+    // Will trace with white box approach
     @RequestMapping("/me")
     public String chaining() {
         ActiveSpan serverSpan = tracer.activeSpan();
@@ -27,7 +28,7 @@ public class GreetingController {
 
         try {
             // Traced work happens between start() and deactivate();
-            return "me";
+            return "module 2 /me path";
         } finally {
 
 

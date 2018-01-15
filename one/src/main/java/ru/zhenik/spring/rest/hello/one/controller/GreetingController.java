@@ -15,7 +15,7 @@ public class GreetingController {
 
     @RequestMapping("/inside")
     public String chaining() {
-        return "inside";
+        return "inside module 1";
     }
 
     @RequestMapping("/outside")
