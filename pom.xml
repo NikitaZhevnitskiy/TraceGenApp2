@@ -1,87 +1,116 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ru.zhenik.spring.rest</groupId>
-    <artifactId>hello</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>one</module>
-        <module>two</module>
-    </modules>
+  <groupId>ru.zhenik.spring.rest</groupId>
+  <artifactId>hello</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <modules>
+    <module>one</module>
+    <module>two</module>
+  </modules>
 
-    <properties>
-        <java.version>1.8</java.version>
-        <spring.version>1.5.7.RELEASE</spring.version>
-        <apacheHttp.version>4.3.4</apacheHttp.version>
-    </properties>
-
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-web</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpclient</artifactId>
-                <version>${apacheHttp.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-test</artifactId>
-                <version>${spring.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-data-rest</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <!-- https://mvnrepository.com/artifact/io.opentracing.contrib/opentracing-spring-web-autoconfigure -->
-            <dependency>
-                <groupId>io.opentracing.contrib</groupId>
-                <artifactId>opentracing-spring-web-autoconfigure</artifactId>
-                <version>0.0.10</version>
-            </dependency>
-            <!-- https://mvnrepository.com/artifact/com.uber.jaeger/jaeger-core -->
-            <dependency>
-                <groupId>com.uber.jaeger</groupId>
-                <artifactId>jaeger-core</artifactId>
-                <version>0.20.0</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+  <properties>
+    <java.version>1.8</java.version>
+    <spring.version>1.5.7.RELEASE</spring.version>
+    <apacheHttp.version>4.3.4</apacheHttp.version>
+  </properties>
 
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>${apacheHttp.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-test</artifactId>
+        <version>${spring.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-rest</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/io.opentracing.contrib/opentracing-spring-web-autoconfigure -->
+      <dependency>
+        <groupId>io.opentracing.contrib</groupId>
+        <artifactId>opentracing-spring-web-autoconfigure</artifactId>
+        <version>0.0.10</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/com.uber.jaeger/jaeger-core -->
+      <dependency>
+        <groupId>com.uber.jaeger</groupId>
+        <artifactId>jaeger-core</artifactId>
+        <version>0.20.0</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring.version}</version>
-            </plugin>
-        </plugins>
-    </build>
+  <repositories>
+    <repository>
+      <id>spring-releases</id>
+      <url>https://repo.spring.io/libs-release</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>spring-releases</id>
+      <url>https://repo.spring.io/libs-release</url>
+    </pluginRepository>
+  </pluginRepositories>
 
-    <repositories>
-        <repository>
-            <id>spring-releases</id>
-            <url>https://repo.spring.io/libs-release</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-releases</id>
-            <url>https://repo.spring.io/libs-release</url>
-        </pluginRepository>
-    </pluginRepositories>
+  <build>
+    <plugins>
+      <!--
+          If you have modules with both Kotlin and Java code, the documentation states
+          that it is important that the Kotlin compiler plugin is executed before the Java compiler.
+          See https://kotlinlang.org/docs/kotlin-docs.pdf
+          However, here we are not in such case. There is one exception though.
+          In some modules (eg SOAP) we do automatically generate Java source code before
+          the compilation phase.
+          To make it usable from Kotlin, we need to compile such Java code before the
+          Kotlin one. Note: that Java code does not call any Kotlin code.
+          Therefore, here we force the execution of the Java compiler BEFORE
+          the one of Kotlin.
+        -->
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+    </plugins>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <!-- Need to create self-executable uber/fat jars -->
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+          <version>${spring.version}</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>repackage</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
 
 </project>
