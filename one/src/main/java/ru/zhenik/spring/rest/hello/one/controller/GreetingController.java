@@ -18,9 +18,9 @@ public class GreetingController {
         return "inside module 1";
     }
 
-    @RequestMapping("/outside")
-    public String outside() {
-        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:8082/me", String.class);
-        return "Chaining + " + response.getBody();
+    @RequestMapping("/gohome")
+    public String gohome() {
+        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:8082/buyfood", String.class);
+        return "I go home & + " + response.getBody();
     }
 }

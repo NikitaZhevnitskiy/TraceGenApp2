@@ -19,7 +19,7 @@ public class ApplicationOne {
     // Will trace with black box approach
     @Bean
     public io.opentracing.Tracer jaegerTracer() {
-        return new Configuration("one-module", new Configuration.SamplerConfiguration(ProbabilisticSampler.TYPE, 1),
+        return new Configuration("Work", new Configuration.SamplerConfiguration(ProbabilisticSampler.TYPE, 1),
                 new Configuration.ReporterConfiguration())
                 .getTracer();
     }

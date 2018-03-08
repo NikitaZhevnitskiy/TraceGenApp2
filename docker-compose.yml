@@ -16,14 +16,14 @@ services:
     image: zhenik/one
     build: ./one
     ports:
-      - 8081:8081
+      - 8081:8080
     environment:
       JAEGER_SERVICE_NAME: jaeger
   two:
     image: zhenik/two
     build: ./two
     ports:
-      - 8082:8082
+      - 8082:8080
 
 #  spring:
 #    image: demo/spring:jaeger

@@ -21,7 +21,7 @@ public class ApplicationTwo {
 
     @Bean
     public Tracer jaegerTracer() {
-        Tracer tracer = new Configuration("two-module", new Configuration.SamplerConfiguration(ProbabilisticSampler.TYPE, 1),
+        Tracer tracer = new Configuration("Home", new Configuration.SamplerConfiguration(ProbabilisticSampler.TYPE, 1),
                 new Configuration.ReporterConfiguration())
                 .getTracer();
         if (GlobalTracer.isRegistered()){ GlobalTracer.register(tracer); }
