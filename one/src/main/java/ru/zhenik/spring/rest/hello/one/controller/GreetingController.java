@@ -1,6 +1,7 @@
 package ru.zhenik.spring.rest.hello.one.controller;
 
 
+import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,9 +19,11 @@ public class GreetingController {
         return "inside module 1";
     }
 
-    @RequestMapping("/gohome")
-    public String gohome() {
-        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:8082/buyfood", String.class);
-        return "I go home & + " + response.getBody();
+    @RequestMapping("/buybook")
+    public String guyBook() {
+        Random r = new Random();
+        int chance = r.nextInt(10);
+        if (chance>2) return restTemplate.getForEntity("http://localhost:10082/getbook", String.class).getBody();
+        return "Not enough money, u need more than 2, but u have"+chance;
     }
 }
