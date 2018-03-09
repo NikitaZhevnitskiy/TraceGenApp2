@@ -20,10 +20,10 @@ public class GreetingController {
     }
 
     @RequestMapping("/buybook")
-    public String guyBook() {
+    public ResponseEntity guyBook() {
         Random r = new Random();
         int chance = r.nextInt(10);
-        if (chance>2) return restTemplate.getForEntity("http://localhost:10082/getbook", String.class).getBody();
-        return "Not enough money, u need more than 2, but u have"+chance;
+        if (chance>2) return ResponseEntity.ok(restTemplate.getForEntity("http://localhost:10082/getbook", String.class).getBody());
+        return ResponseEntity.badRequest().body("Not enough money you have: "+chance);
     }
 }
