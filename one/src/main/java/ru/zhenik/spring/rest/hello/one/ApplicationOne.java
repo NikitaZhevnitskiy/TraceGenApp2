@@ -11,6 +11,8 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 public class ApplicationOne {
 
+
+
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
         return restTemplateBuilder.build();

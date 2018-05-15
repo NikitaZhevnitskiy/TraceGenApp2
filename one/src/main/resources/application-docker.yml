@@ -1,0 +1,9 @@
+spring:
+    application:
+      name: one
+server:
+  port: 11111
+
+module-two:
+  host: two
+  port: 22222
